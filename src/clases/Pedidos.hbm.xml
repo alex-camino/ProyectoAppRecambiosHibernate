@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.Pedidos" table="pedidos" catalog="OSCARO">
+        <id name="pedCodigo" type="java.lang.Integer">
+            <column name="ped_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuarios" class="clases.Usuarios" fetch="select">
+            <column name="user_codigo" not-null="true" />
+        </many-to-one>
+        <property name="pedEstado" type="string">
+            <column name="ped_estado" length="20" />
+        </property>
+        <property name="pedComentarios" type="string">
+            <column name="ped_comentarios" length="300" />
+        </property>
+        <property name="pedImporte" type="java.lang.Float">
+            <column name="ped_importe" precision="12" scale="0" />
+        </property>
+        <property name="fechaHora" type="timestamp">
+            <column name="fecha_hora" length="19" />
+        </property>
+        <set name="lineasPedidos" table="lineas_pedido" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ped_codigo" />
+            </key>
+            <one-to-many class="clases.LineasPedido" />
+        </set>
+    </class>
+</hibernate-mapping>

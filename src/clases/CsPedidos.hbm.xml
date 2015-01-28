@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.CsPedidos" table="cs_pedidos" catalog="OSCARO">
+        <id name="csCodPedido" type="int">
+            <column name="cs_codPedido" />
+            <generator class="assigned" />
+        </id>
+        <property name="csEstado" type="string">
+            <column name="cs_estado" length="20" />
+        </property>
+        <property name="csImporte" type="java.lang.Float">
+            <column name="cs_importe" precision="12" scale="0" />
+        </property>
+        <property name="csFechaHora" type="timestamp">
+            <column name="cs_fecha_hora" length="19" />
+        </property>
+        <property name="csFechaHoraEliminado" type="timestamp">
+            <column name="cs_fecha_hora_eliminado" length="19" />
+        </property>
+        <property name="csUserCodigo" type="java.lang.Integer">
+            <column name="cs_user_codigo" />
+        </property>
+        <property name="csNombreUser" type="string">
+            <column name="cs_nombreUser" length="50" />
+        </property>
+        <property name="csApellidosUser" type="string">
+            <column name="cs_apellidosUser" length="80" />
+        </property>
+    </class>
+</hibernate-mapping>

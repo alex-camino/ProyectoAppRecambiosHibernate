@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.PedidosProveedor" table="pedidos_proveedor" catalog="OSCARO">
+        <id name="pedproCodigo" type="java.lang.Integer">
+            <column name="pedpro_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="piezas" class="clases.Piezas" fetch="select">
+            <column name="pedpro_pie_codigo" />
+        </many-to-one>
+        <many-to-one name="proveedores" class="clases.Proveedores" fetch="select">
+            <column name="pedpro_pro_codigo" />
+        </many-to-one>
+        <property name="pedproProNombre" type="string">
+            <column name="pedpro_pro_nombre" length="50" />
+        </property>
+        <property name="pedproPieNombre" type="string">
+            <column name="pedpro_pie_nombre" length="50" />
+        </property>
+        <property name="pedproCantidad" type="java.lang.Integer">
+            <column name="pedpro_cantidad" />
+        </property>
+        <property name="pedproComentarios" type="string">
+            <column name="pedpro_comentarios" length="200" />
+        </property>
+        <property name="pedproFechaHora" type="timestamp">
+            <column name="pedpro_fecha_hora" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

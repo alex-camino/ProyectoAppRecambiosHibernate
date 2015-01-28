@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.Piezas" table="piezas" catalog="OSCARO">
+        <id name="pieCodigo" type="java.lang.Integer">
+            <column name="pie_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="catEspecifica" class="clases.CatEspecifica" fetch="select">
+            <column name="cat_esp_codigo" />
+        </many-to-one>
+        <many-to-one name="proveedores" class="clases.Proveedores" fetch="select">
+            <column name="pro_codigo" />
+        </many-to-one>
+        <property name="pieReferencia" type="string">
+            <column name="pie_referencia" length="100" not-null="true" unique="true" />
+        </property>
+        <property name="pieNombre" type="string">
+            <column name="pie_nombre" length="100" />
+        </property>
+        <property name="pieDescripcion" type="string">
+            <column name="pie_descripcion" length="250" />
+        </property>
+        <property name="pieCantidad" type="java.lang.Integer">
+            <column name="pie_cantidad" />
+        </property>
+        <property name="piePrecio" type="java.lang.Float">
+            <column name="pie_precio" precision="12" scale="0" />
+        </property>
+        <set name="proveedoreses" table="proveedores_piezas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pie_codigo" not-null="true" />
+            </key>
+            <many-to-many entity-name="clases.Proveedores">
+                <column name="pro_codigo" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="tiposes" table="piezas_tipos" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="pie_codigo" not-null="true" />
+            </key>
+            <many-to-many entity-name="clases.Tipos">
+                <column name="tip_codigo" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="lineasPedidos" table="lineas_pedido" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pie_codigo" />
+            </key>
+            <one-to-many class="clases.LineasPedido" />
+        </set>
+        <set name="pedidosProveedors" table="pedidos_proveedor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pedpro_pie_codigo" />
+            </key>
+            <one-to-many class="clases.PedidosProveedor" />
+        </set>
+    </class>
+</hibernate-mapping>

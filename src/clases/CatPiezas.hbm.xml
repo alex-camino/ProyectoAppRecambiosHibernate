@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.CatPiezas" table="cat_piezas" catalog="OSCARO">
+        <id name="catCodigo" type="java.lang.Integer">
+            <column name="cat_codigo" />
+            <generator class="identity" />
+        </id>
+        <property name="catNombre" type="string">
+            <column name="cat_nombre" length="100" not-null="true" />
+        </property>
+        <set name="catEspecificas" table="cat_especifica" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cat_codigo" />
+            </key>
+            <one-to-many class="clases.CatEspecifica" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.LineasPedido" table="lineas_pedido" catalog="OSCARO">
+        <id name="linCodigo" type="java.lang.Integer">
+            <column name="lin_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pedidos" class="clases.Pedidos" fetch="select">
+            <column name="ped_codigo" />
+        </many-to-one>
+        <many-to-one name="piezas" class="clases.Piezas" fetch="select">
+            <column name="pie_codigo" />
+        </many-to-one>
+        <property name="linDescripcion" type="string">
+            <column name="lin_descripcion" length="200" />
+        </property>
+        <property name="linCantidad" type="java.lang.Integer">
+            <column name="lin_cantidad" />
+        </property>
+        <property name="linPrecio" type="java.lang.Float">
+            <column name="lin_precio" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

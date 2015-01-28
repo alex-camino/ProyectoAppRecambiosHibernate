@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.DatosPersonales" table="datosPersonales" catalog="OSCARO">
+        <id name="dpCodigo" type="java.lang.Integer">
+            <column name="dp_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuarios" class="clases.Usuarios" fetch="select">
+            <column name="user_codigo" />
+        </many-to-one>
+        <property name="dpDni" type="string">
+            <column name="dp_dni" length="10" unique="true" />
+        </property>
+        <property name="dpNombre" type="string">
+            <column name="dp_nombre" length="50" />
+        </property>
+        <property name="dpApellidos" type="string">
+            <column name="dp_apellidos" length="80" />
+        </property>
+        <property name="dpDireccion" type="string">
+            <column name="dp_direccion" length="200" />
+        </property>
+        <property name="dpTelefono" type="string">
+            <column name="dp_telefono" length="50" />
+        </property>
+        <property name="dpEmail" type="string">
+            <column name="dp_email" length="50" />
+        </property>
+        <property name="dpFechanac" type="date">
+            <column name="dp_fechanac" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

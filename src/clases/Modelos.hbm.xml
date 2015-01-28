@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.Modelos" table="modelos" catalog="OSCARO">
+        <id name="modCodigo" type="java.lang.Integer">
+            <column name="mod_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="marcas" class="clases.Marcas" fetch="select">
+            <column name="mar_codigo" />
+        </many-to-one>
+        <property name="modNombre" type="string">
+            <column name="mod_nombre" length="100" not-null="true" />
+        </property>
+        <set name="tiposes" table="tipos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_codigo" />
+            </key>
+            <one-to-many class="clases.Tipos" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.CsLineasPedido" table="cs_lineas_pedido" catalog="OSCARO">
+        <id name="csLinCodigo" type="java.lang.Integer">
+            <column name="cs_lin_codigo" />
+            <generator class="identity" />
+        </id>
+        <property name="csPedCodigo" type="java.lang.Integer">
+            <column name="cs_ped_codigo" />
+        </property>
+        <property name="csPieCodigo" type="java.lang.Integer">
+            <column name="cs_pie_codigo" />
+        </property>
+        <property name="csLinDescripcion" type="string">
+            <column name="cs_lin_descripcion" length="200" />
+        </property>
+        <property name="csLinCantidad" type="java.lang.Integer">
+            <column name="cs_lin_cantidad" />
+        </property>
+        <property name="csLinPrecio" type="java.lang.Float">
+            <column name="cs_lin_precio" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

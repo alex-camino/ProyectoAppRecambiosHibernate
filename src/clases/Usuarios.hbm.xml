@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-ene-2015 16:17:57 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="clases.Usuarios" table="usuarios" catalog="OSCARO">
+        <id name="userCodigo" type="java.lang.Integer">
+            <column name="user_codigo" />
+            <generator class="identity" />
+        </id>
+        <property name="userAlias" type="string">
+            <column name="user_alias" length="50" />
+        </property>
+        <property name="userPass" type="string">
+            <column name="user_pass" length="50" />
+        </property>
+        <set name="datosPersonaleses" table="datosPersonales" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_codigo" />
+            </key>
+            <one-to-many class="clases.DatosPersonales" />
+        </set>
+        <set name="pedidoses" table="pedidos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_codigo" not-null="true" />
+            </key>
+            <one-to-many class="clases.Pedidos" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="OSCARO" match-name="cat_especifica"/>
+  <table-filter match-catalog="OSCARO" match-name="cat_piezas"/>
+  <table-filter match-catalog="OSCARO" match-name="cs_lineas_pedido"/>
+  <table-filter match-catalog="OSCARO" match-name="cs_pedidos"/>
+  <table-filter match-catalog="OSCARO" match-name="cs_usuarios"/>
+  <table-filter match-catalog="OSCARO" match-name="datosPersonales"/>
+  <table-filter match-catalog="OSCARO" match-name="lineas_pedido"/>
+  <table-filter match-catalog="OSCARO" match-name="marcas"/>
+  <table-filter match-catalog="OSCARO" match-name="modelos"/>
+  <table-filter match-catalog="OSCARO" match-name="pedidos"/>
+  <table-filter match-catalog="OSCARO" match-name="pedidos_proveedor"/>
+  <table-filter match-catalog="OSCARO" match-name="piezas"/>
+  <table-filter match-catalog="OSCARO" match-name="piezas_tipos"/>
+  <table-filter match-catalog="OSCARO" match-name="proveedores"/>
+  <table-filter match-catalog="OSCARO" match-name="proveedores_piezas"/>
+  <table-filter match-catalog="OSCARO" match-name="tipos"/>
+  <table-filter match-catalog="OSCARO" match-name="usuarios"/>
+</hibernate-reverse-engineering>
