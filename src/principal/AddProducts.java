@@ -31,7 +31,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
 
-public class addProducts extends JPanel {
+public class AddProducts extends JPanel {
 
 	private JComboBox comboBoxSubcategorias, comboBoxCategorias, comboBoxProveedores;
 	private JTextField referencia;
@@ -42,7 +42,7 @@ public class addProducts extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public addProducts() {
+	public AddProducts() {
 		setLayout(null);
 		setBounds(100, 100, 525, 333);
 		
@@ -234,9 +234,28 @@ public class addProducts extends JPanel {
 		SessionFactory sesionF = SessionFactoryUtil.getSessionFactory();
 		Session sesion = sesionF.openSession();
 		Transaction trans = sesion.beginTransaction();
-				
 		
 		Piezas nuevaPieza = new Piezas();
+		
+		Query q = sesion.createQuery("from CatEspecifica ce where ce.catEspNombre = :nomCatEspecifica");
+		q.setString("nomCatEspecifica", comboBoxSubcategorias.getSelectedItem().toString());
+				
+		CatEspecifica nuevaSubCategoria = new CatEspecifica();
+		
+		List<CatEspecifica> lista = q.list();
+		Iterator<CatEspecifica> iter = lista.iterator();
+		
+		q.setFetchSize(20);
+		
+		iter=q.iterate();
+		
+		while(iter.hasNext()){
+			
+			nuevaSubCategoria=(CatEspecifica) iter.next();
+			
+			nuevaPieza.setCatEspecifica(nuevaSubCategoria);
+		}
+		
 		nuevaPieza.setPieReferencia(referencia.getText());
 		nuevaPieza.setPieNombre(nombrePieza.getText());
 		nuevaPieza.setPieDescripcion(descripcionPieza.getText());
@@ -245,10 +264,8 @@ public class addProducts extends JPanel {
 		Proveedores nuevoProveedor = new Proveedores();
 		nuevoProveedor.setProCodigo(comboBoxProveedores.getSelectedIndex()+1);
 		nuevaPieza.setProveedores(nuevoProveedor);
-		CatEspecifica nuevaCatEspecifica = new CatEspecifica();
-		nuevaCatEspecifica.setCatEspCodigo((comboBoxSubcategorias.getSelectedIndex()+1));
 		
-		System.out.println("HOLAAAAAA   "+ nuevaCatEspecifica.getCatEspCodigo());
+		
 		sesion.save(nuevaPieza);
 		trans.commit();
 		sesion.close();
