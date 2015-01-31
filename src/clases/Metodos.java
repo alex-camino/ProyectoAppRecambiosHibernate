@@ -17,19 +17,35 @@ import org.hibernate.Transaction;
 
 public class Metodos {
 	
-	public static void rellenarProductos(DefaultTableModel modelo){
+	public static boolean rellenarProductos(DefaultTableModel modelo, String referencia, int subcategoria){
 		
 		
 		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD.
 		SessionFactory sesionF = SessionFactoryUtil.getSessionFactory();
 		Session sesion = sesionF.openSession();
 		
+		boolean encontrado=false;
+		
+		Query q;
 				
 		Piezas nuevaPieza = new Piezas();
 		Proveedores nuevoProveedor = new Proveedores();
 		CatEspecifica nuevaSubCat = new CatEspecifica();
 		
-		Query q = sesion.createQuery("from Piezas order by pieCodigo");
+		if(referencia.length()==0&&subcategoria==0){
+			
+			q = sesion.createQuery("from Piezas order by pieCodigo");
+			
+		}else if(referencia.length()==0&&subcategoria!=0){
+			
+			q = sesion.createQuery("from Piezas p where p.catEspecifica = "+subcategoria+"order by p.pieCodigo");
+			
+		}else {
+			
+			q = sesion.createQuery("from Piezas p where p.pieReferencia like '"+referencia+"'");
+		}
+		
+		
 		
 		
 		List<Piezas> lista = q.list();
@@ -58,10 +74,15 @@ public class Metodos {
 					
 			
 			modelo.addRow(fila);
+			
+			encontrado=true;
 		}
 		
 		sesionF.close();
 		sesion.close();
+		
+		
+		return encontrado;
 	}
 	
 	public static void borrarProducto(int codPieza){
