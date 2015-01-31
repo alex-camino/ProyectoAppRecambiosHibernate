@@ -20,7 +20,7 @@ public class Metodos {
 	public static boolean rellenarProductos(DefaultTableModel modelo, String referencia, int subcategoria){
 		
 		
-		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD.
+		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD..
 		SessionFactory sesionF = SessionFactoryUtil.getSessionFactory();
 		Session sesion = sesionF.openSession();
 		

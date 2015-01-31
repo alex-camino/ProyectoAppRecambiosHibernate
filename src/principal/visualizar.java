@@ -177,7 +177,7 @@ public class visualizar extends JPanel {
 		lblSubcategoria = new JLabel("Subcategoria:");
 		
 				
-		//ComboBox SUBCATEGORIAS
+		//ComboBox SUBCATEGORIAS.
 		comboBoxSubcategorias.setMaximumRowCount(15);
 		obtenerCategoriasEspecificas();
 		

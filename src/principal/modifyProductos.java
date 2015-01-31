@@ -288,7 +288,7 @@ public class modifyProductos extends JPanel {
 	
 	public  void obtenerCategorias(){
 		
-		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD..
+		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD.
 		SessionFactory sesionF = SessionFactoryUtil.getSessionFactory();
 		Session sesion = sesionF.openSession();
 		Transaction trans = sesion.beginTransaction();
