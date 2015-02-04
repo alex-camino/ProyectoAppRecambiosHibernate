@@ -63,10 +63,11 @@ public class modifyProductos extends JPanel {
 		
 				
 		comboBoxCategorias = new JComboBox();
-		obtenerCategorias();
+		//obtenerCategorias();
 		comboBoxCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				//comboBoxCategorias.removeAllItems();
 				comboBoxSubcategorias.removeAllItems();;
 				obtenerCategoriasEspecificas(comboBoxCategorias.getSelectedIndex()+1);
 			}
@@ -383,25 +384,86 @@ public class modifyProductos extends JPanel {
 		Session sesion = sesionF.openSession();
 		Transaction trans = sesion.beginTransaction();
 		
-		Piezas nuevaPieza = new Piezas();
-		nuevaPieza = (Piezas) sesion.load(Piezas.class, (int) codPieza);
+		int cantidadPiezas;
+		float precio;
+		boolean error=false;
+			
 		
-		nuevaPieza.setPieReferencia(referencia.getText());
-		nuevaPieza.setPieNombre(nombrePieza.getText());
-		nuevaPieza.setPieDescripcion(descripcionPieza.getText());
-		nuevaPieza.setPieCantidad(Integer.parseInt(cantidad.getText()));
-		nuevaPieza.setPiePrecio(Float.parseFloat(precioPieza.getText()));
-		Proveedores nuevoProveedor = new Proveedores();
-		nuevoProveedor.setProCodigo(comboBoxProveedores.getSelectedIndex()+1);
-		nuevaPieza.setProveedores(nuevoProveedor);
+		if(referencia.getText().equals("")||nombrePieza.getText().equals("")||descripcionPieza.getText().equals("")
+		  ||cantidad.getText().equals("")||precioPieza.getText().equals("")){
+			
+		
+			JOptionPane.showMessageDialog(null, "Es necesario rellenar todos los campos para poder crear la pieza.", "CREANDO UNA NUEVA PIEZA", 1);
+
+			
+		}else{
+			
+			
+
+			try{
+				
+				
+				
+				cantidadPiezas=Integer.parseInt(cantidad.getText());
+				precio=Float.parseFloat(precioPieza.getText());
+				
+				
+			}catch(NumberFormatException ex){
+				
+				JOptionPane.showMessageDialog(null,	"Debe introducir numeros en los campos numericos.", "Añadiendo pieza al carrito.....", 0);
+				error=true;
+			}
+			
+			if(!error){
+				
+				Piezas nuevaPieza = new Piezas();
+				nuevaPieza = (Piezas) sesion.load(Piezas.class, (int) codPieza);
+				
+				nuevaPieza.setPieReferencia(referencia.getText());
+				nuevaPieza.setPieNombre(nombrePieza.getText());
+				nuevaPieza.setPieDescripcion(descripcionPieza.getText());
+				nuevaPieza.setPieCantidad(Integer.parseInt(cantidad.getText()));
+				nuevaPieza.setPiePrecio(Float.parseFloat(precioPieza.getText()));
+				Proveedores nuevoProveedor = new Proveedores();
+				nuevoProveedor.setProCodigo(comboBoxProveedores.getSelectedIndex()+1);
+				nuevaPieza.setProveedores(nuevoProveedor);
+				nuevaPieza.setCatEspecifica(obtenerSubCategoria(comboBoxSubcategorias.getSelectedItem().toString()));
+				
+				
+				
+				sesion.save(nuevaPieza);
+				trans.commit();
+				sesion.close();
+				
+				JOptionPane.showMessageDialog(null, "PIEZA MODIFICADA CORRECTAMENTE.", "MODIFICANDO PIEZA", 1);
+			}
+			
+		}
+				
+	}
+	
+	public CatEspecifica obtenerSubCategoria(String nombreSubCategoria){
 		
 		
-		sesion.save(nuevaPieza);
-		trans.commit();
+		//Creamos la sesion y el transaction para poder ejecutar las acciones a la BBDD.
+		SessionFactory sesionF = SessionFactoryUtil.getSessionFactory();
+		Session sesion = sesionF.openSession();
+		Transaction trans = sesion.beginTransaction();
+
+		Query cons = sesion.createQuery("FROM CatEspecifica where catEspNombre like '"+nombreSubCategoria+"'");
+
+		CatEspecifica subCat = new CatEspecifica();
+		
+		List<Object> filas = cons.list();
+		Iterator<Object> iter = filas.iterator();
+
+		while (iter.hasNext()) {
+
+			subCat = (CatEspecifica) iter.next();
+
+		}
+		
 		sesion.close();
-		
-		JOptionPane.showMessageDialog(null, "PIEZA MODIFICADA CORRECTAMENTE.", "MODIFICANDO PIEZA", 1);
-		
-		
+		return subCat;
 	}
 }

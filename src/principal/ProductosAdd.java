@@ -260,45 +260,95 @@ public class ProductosAdd extends JPanel {
 		Session sesion = sesionF.openSession();
 		Transaction trans = sesion.beginTransaction();
 		
-		Piezas nuevaPieza = new Piezas();
+		int cantidadPiezas;
+		float precio;
+		boolean error=false;
+			
 		
-		Query q = sesion.createQuery("from CatEspecifica ce where ce.catEspNombre = :nomCatEspecifica");
-		q.setString("nomCatEspecifica", comboBoxSubcategorias.getSelectedItem().toString());
+		if(referencia.getText().equals("")||nombrePieza.getText().equals("")||descripcionPieza.getText().equals("")
+		  ||cantidad.getText().equals("")||precioPieza.getText().equals("")){
+			
+		
+			JOptionPane.showMessageDialog(null, "Es necesario rellenar todos los campos para poder crear la pieza.", "CREANDO UNA NUEVA PIEZA", 1);
+
+			
+		}else{
+			
+			
+
+			try{
 				
-		CatEspecifica nuevaSubCategoria = new CatEspecifica();
-		
-		List<CatEspecifica> lista = q.list();
-		Iterator<CatEspecifica> iter = lista.iterator();
-		
-		q.setFetchSize(20);
-		
-		iter=q.iterate();
-		
-		while(iter.hasNext()){
+				
+				
+				cantidadPiezas=Integer.parseInt(cantidad.getText());
+				precio=Float.parseFloat(precioPieza.getText());
+				
+				
+			}catch(NumberFormatException ex){
+				
+				JOptionPane.showMessageDialog(null,	"Debe introducir numeros en los campos numericos.", "Añadiendo pieza al carrito.....", 0);
+				error=true;
+			}
 			
-			nuevaSubCategoria=(CatEspecifica) iter.next();
+			if(!error){
+				
+				Piezas nuevaPieza = new Piezas();
+				
+				Query q = sesion.createQuery("from CatEspecifica ce where ce.catEspNombre = :nomCatEspecifica");
+				q.setString("nomCatEspecifica", comboBoxSubcategorias.getSelectedItem().toString());
+						
+				CatEspecifica nuevaSubCategoria = new CatEspecifica();
+				
+				List<CatEspecifica> lista = q.list();
+				Iterator<CatEspecifica> iter = lista.iterator();
+				
+				q.setFetchSize(20);
+				
+				iter=q.iterate();
+				
+				while(iter.hasNext()){
+					
+					nuevaSubCategoria=(CatEspecifica) iter.next();
+					
+					nuevaPieza.setCatEspecifica(nuevaSubCategoria);
+				}
+				
+				nuevaPieza.setPieReferencia(referencia.getText());
+				nuevaPieza.setPieNombre(nombrePieza.getText());
+				nuevaPieza.setPieDescripcion(descripcionPieza.getText());
+				nuevaPieza.setPieCantidad(Integer.parseInt(cantidad.getText()));
+				nuevaPieza.setPiePrecio(Float.parseFloat(precioPieza.getText()));
+				Proveedores nuevoProveedor = new Proveedores();
+				nuevoProveedor.setProCodigo(comboBoxProveedores.getSelectedIndex()+1);
+				nuevaPieza.setProveedores(nuevoProveedor);
+				
+				
+				sesion.save(nuevaPieza);
+				trans.commit();
+				sesion.close();
+				
+				JOptionPane.showMessageDialog(null, "PIEZA CREADO CORRECTAMENTE.", "CREANDO UNA NUEVA PIEZA", 1);
+				
+				resetearCampos();
+			}
 			
-			nuevaPieza.setCatEspecifica(nuevaSubCategoria);
+			
 		}
-		
-		nuevaPieza.setPieReferencia(referencia.getText());
-		nuevaPieza.setPieNombre(nombrePieza.getText());
-		nuevaPieza.setPieDescripcion(descripcionPieza.getText());
-		nuevaPieza.setPieCantidad(Integer.parseInt(cantidad.getText()));
-		nuevaPieza.setPiePrecio(Float.parseFloat(precioPieza.getText()));
-		Proveedores nuevoProveedor = new Proveedores();
-		nuevoProveedor.setProCodigo(comboBoxProveedores.getSelectedIndex()+1);
-		nuevaPieza.setProveedores(nuevoProveedor);
-		
-		
-		sesion.save(nuevaPieza);
-		trans.commit();
-		sesion.close();
-		
-		JOptionPane.showMessageDialog(null, "PIEZA CREADO CORRECTAMENTE.", "CREANDO UNA NUEVA PIEZA", 1);
 		
 		
 	}
 	
+	public void resetearCampos(){
+		
+		referencia.setText("");
+		nombrePieza.setText("");
+		descripcionPieza.setText("");
+		cantidad.setText("");
+		precioPieza.setText("");
+		comboBoxProveedores.setSelectedIndex(0);
+		comboBoxCategorias.setSelectedIndex(0);
+		comboBoxSubcategorias.setSelectedIndex(0);
+		
+	}
 
 }

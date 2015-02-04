@@ -256,7 +256,7 @@ public class visualizar extends JPanel {
 			
 			if(opcion==-1){
 			
-				JOptionPane.showMessageDialog(null, "Debe seleccionar un producto para poder modificarlo.","Advertencia",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Debe seleccionar un producto para poder borrarlo.","Advertencia",JOptionPane.WARNING_MESSAGE);
 				
 			}else{
 				
@@ -287,28 +287,27 @@ public class visualizar extends JPanel {
 	public void buscarProducto() throws InterruptedException{
 		
 		//Averiguamos si no hay seleccionada ninguna opción o si el campo referencia esta vacio
-		if(comboBoxSubcategorias.getSelectedIndex()==-1&&txtReferencia.getText().length()==0){
+		if(comboBoxSubcategorias.getSelectedIndex()==0&&txtReferencia.getText().length()==0){
 			
-			JOptionPane.showMessageDialog(null, "Debe seleccionar una subcategoria o una\n referencia para poder mostrar los productos.","Advertencia",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Debe seleccionar una subcategoria o una\nreferencia para poder mostrar los productos.","Advertencia",JOptionPane.WARNING_MESSAGE);
 			
-		}else if(txtReferencia.getText().length()!=0&&comboBoxSubcategorias.getSelectedIndex()==-1){
+		}else if(txtReferencia.getText().length()!=0&&comboBoxSubcategorias.getSelectedIndex()==0){
 			
 			
 			JOptionPane.showMessageDialog(null, "Buscando la pieza por la referencia, por favor espere.....","Advertencia",JOptionPane.WARNING_MESSAGE);
 			mostrarProductos(txtReferencia.getText(),0);
-			//Thread.sleep(1000);
+			Thread.sleep(1000);
 			
-		}else if(txtReferencia.getText().length()==0&&comboBoxSubcategorias.getSelectedIndex()!=-1){
+		}else if(txtReferencia.getText().length()==0&&comboBoxSubcategorias.getSelectedIndex()!=0){
 		
 			JOptionPane.showMessageDialog(null, "Buscando piezas por subcategoria, por favor espere.....","Advertencia",JOptionPane.WARNING_MESSAGE);
-			mostrarProductos("",(comboBoxSubcategorias.getSelectedIndex()+1));
-			//Thread.sleep(1000);
+			mostrarProductos("",(comboBoxSubcategorias.getSelectedIndex()));
+			Thread.sleep(1000);
 			
 		}else{
 			
 			
-			JOptionPane.showMessageDialog(null, "Buscando piezas por subcategoria, por favor espere.....","Advertencia",JOptionPane.WARNING_MESSAGE);
-			mostrarProductos(txtReferencia.getText(),(comboBoxSubcategorias.getSelectedIndex()+1));
+			JOptionPane.showMessageDialog(null, "Tiene que buscar por la referencia o por la subcategoria.","Advertencia",JOptionPane.WARNING_MESSAGE);
 			//Thread.sleep(1000);
 		}
 	}
@@ -331,6 +330,9 @@ public class visualizar extends JPanel {
 		
 		iter=q.iterate();
 		
+		//Rellenamos la opcion de vacio.
+		comboBoxSubcategorias.addItem("");
+		
 		while(iter.hasNext()){
 			
 			nuevaCategoria=(CatEspecifica) iter.next();
@@ -338,7 +340,7 @@ public class visualizar extends JPanel {
 			comboBoxSubcategorias.addItem(nuevaCategoria.getCatEspNombre());
 		}
 		
-		comboBoxSubcategorias.setSelectedIndex(-1);
+		comboBoxSubcategorias.setSelectedIndex(0);
 		sesion.close();
 	}
 	public void obtenerInfoTabla() {
@@ -413,20 +415,8 @@ public class visualizar extends JPanel {
 		
 		modelo = new DefaultTableModel(filas, columnas);
 		
-		if(referencia.length()==0&&subcategoria==0){
-			
-			encontrado=clases.Metodos.rellenarProductos(modelo, "",0);
-			
-		}else if(referencia.length()==0&&subcategoria!=0){
-			
-			encontrado=clases.Metodos.rellenarProductos(modelo, "",subcategoria);
-		}else if(referencia.length()!=0&&subcategoria==0){
-			
-			encontrado=clases.Metodos.rellenarProductos(modelo, referencia,0);
-		}else{
-			
-			encontrado=clases.Metodos.rellenarProductos(modelo, referencia,subcategoria);
-		}
+		encontrado=clases.Metodos.rellenarProductos(modelo, referencia,subcategoria);
+	
 		
 		if(encontrado){
 			
@@ -444,12 +434,20 @@ public class visualizar extends JPanel {
 	
 			}
 			
-			comboBoxSubcategorias.setSelectedIndex(-1);
-			txtReferencia.setText("");
+			//comboBoxSubcategorias.setSelectedIndex(-1);
+			//txtReferencia.setText("");
 			
 		}else{
 			
 			JOptionPane.showMessageDialog(null, "No existen piezas","Advertencia",JOptionPane.WARNING_MESSAGE);
+			
+			DefaultTableModel modelo2 = new DefaultTableModel(filas, columnas);			
+			tabla.setModel(modelo2);
+			scrollPane.setViewportView(tabla);			
+			
+			//Principal pantPrincipal = new Principal
+			//SwingUtilities.updateComponentTreeUI(this.contentPane);
+
 		}
 		
 		
